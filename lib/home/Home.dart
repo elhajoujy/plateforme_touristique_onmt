@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:plateforme_touristique_onmt/controllers/region_controller.dart';
+import 'package:plateforme_touristique_onmt/models/region.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -14,109 +16,88 @@ class _HomePageState extends State<HomePage> {
     Get.offAllNamed('login');
   }
 
-  var temp = "0".obs;
-  var timeStamp = "0".obs;
+  RegionPage? regionPage;
+  bool isLoaded = false;
 
-  getData() async {
-    //TODO:
+  loadRegions() async {
+    final RegionController regionController = RegionController();
+    regionPage = await regionController.getListRegion();
+    setState(() {
+      isLoaded = true;
+    });
   }
 
   @override
   void initState() {
     super.initState();
-    getData();
+    loadRegions();
   }
 
   @override
   Widget build(BuildContext context) {
-    // timeStamp = "$formattedDate $formattedTime".obs;
-
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("PlateForme Touristique"),
-          actions: [
-            IconButton(
-              onPressed: () {
-                logout();
-              },
-              icon: const Icon(Icons.logout),
+      appBar: AppBar(
+        title: const Text("PlateForme Touristique"),
+        actions: [
+          IconButton(
+            onPressed: () {
+              logout();
+            },
+            icon: const Icon(Icons.logout),
+          ),
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            const Text("Régions du Maroc  ",
+                style: TextStyle(
+                  fontSize: 40,
+                  fontWeight: FontWeight.bold,
+                )),
+            const SizedBox(
+              height: 20,
             ),
+            isLoaded
+                ? Expanded(
+                    child: ListView.builder(
+                      itemCount: regionPage!.content.length,
+                      itemBuilder: (context, index) {
+                        final Content content = regionPage!.content[index];
+                        return MainCard(
+                          name: content.name,
+                          description: content.description,
+                          area: content.area,
+                          gdp: content.gdp,
+                          population: content.population,
+                        );
+                      },
+                    ),
+                  )
+                : const Center(
+                    child: CircularProgressIndicator(),
+                  ),
           ],
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              const Text("Régions du Maroc  ",
-                  style: TextStyle(
-                    fontSize: 40,
-                    fontWeight: FontWeight.bold,
-                  )),
-              const SizedBox(
-                height: 20,
-              ),
-              SizedBox(
-                height: Get.height / 6,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SingleChildScrollView(
-                  scrollDirection:
-                      Axis.horizontal, // Change scrollDirection to horizontal
-                  child: Row(
-                    // Use Row instead of Column
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      MainCard(
-                        name: "something",
-                        description: "description",
-                        imageUrl: "",
-                        area: "394847371",
-                        gdp: "100 Million MAD",
-                        population: "1 million",
-                      ),
-                      MainCard(
-                        name: "something",
-                        description: "description",
-                        imageUrl: "",
-                        area: "394847371",
-                        gdp: "100 Million MAD",
-                        population: "1 million",
-                      ),
-                      MainCard(
-                        name: "something",
-                        description: "description",
-                        imageUrl: "",
-                        area: "394847371",
-                        gdp: "100 Million MAD",
-                        population: "1 million",
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ));
+      ),
+    );
   }
 }
 
 class MainCard extends StatelessWidget {
   const MainCard({
     Key? key,
-    this.name = "name",
-    this.description = "description",
-    this.imageUrl = "",
-    this.area = "394847371",
-    this.gdp = "100 Million MAD",
-    this.population = "1 million",
+    required this.name,
+    required this.description,
+    required this.area,
+    required this.gdp,
+    required this.population,
   }) : super(key: key);
 
   final String name;
   final String description;
-  final String imageUrl;
   final String area;
   final String gdp;
   final String population;
