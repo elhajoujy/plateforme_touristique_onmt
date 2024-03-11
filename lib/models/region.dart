@@ -3,6 +3,9 @@
 //     final RegionPage = RegionPageFromJson(jsonString);
 
 import 'dart:convert';
+import 'dart:html';
+
+import 'package:flutter/material.dart';
 
 RegionPage RegionPageFromJson(String str) =>
     RegionPage.fromJson(json.decode(str));
@@ -73,24 +76,25 @@ class Content {
   String area;
   String gdp;
   String population;
+  String imageUrl;
 
-  Content({
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.area,
-    required this.gdp,
-    required this.population,
-  });
+  Content(
+      {required this.id,
+      required this.name,
+      required this.description,
+      required this.area,
+      required this.gdp,
+      required this.population,
+      required this.imageUrl});
 
   factory Content.fromJson(Map<String, dynamic> json) => Content(
-        id: json["id"],
-        name: json["name"],
-        description: json["description"],
-        area: json["area"],
-        gdp: json["gdp"],
-        population: json["population"],
-      );
+      id: json["id"],
+      name: json["name"],
+      description: json["description"],
+      area: json["area"],
+      gdp: json["gdp"],
+      population: json["population"],
+      imageUrl: json["imageUrl"]);
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -99,6 +103,7 @@ class Content {
         "area": area,
         "gdp": gdp,
         "population": population,
+        "imageUrl": imageUrl,
       };
 }
 
