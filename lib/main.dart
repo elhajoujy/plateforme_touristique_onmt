@@ -31,8 +31,7 @@ class MyApp extends StatelessWidget {
         'login': (context) => const LoginPage(title: "Login"),
         'HomePage': (context) => const HomePage(),
       },
-      home:
-          isLogin == true ? const HomePage() : const LoginPage(title: "Login"),
+      home: LoginPage(title: "Login"),
     );
   }
 }

@@ -13,11 +13,13 @@ class LoginController extends GetxController {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   Future<void> loginWithEmail() async {
-    var headers = {'Content-Type': 'application/json'};
+    var headers = {
+      'Content-Type': 'application/json',
+      "Access-Control-Allow-Origin": "*",
+      'Accept': '*/*'
+    };
     try {
-      var url = Uri.parse(ApiEndPoints.baseUrl +
-          ApiEndPoints.userService +
-          ApiEndPoints.loginEmail);
+      var url = Uri.http(ApiEndPoints.baseUrl, ApiEndPoints.loginEmail);
       Map body = {
         'email': emailController.text.trim(),
         'password': passwordController.text
@@ -27,6 +29,8 @@ class LoginController extends GetxController {
 
       if (response.statusCode == 200) {
         final json = jsonDecode(response.body);
+        print(response.body);
+        Get.offAll(HomePage());
         if (json['code'] == 0) {
           var token = json['data']['Token'];
           final SharedPreferences? prefs = await _prefs;
@@ -34,14 +38,15 @@ class LoginController extends GetxController {
 
           emailController.clear();
           passwordController.clear();
-          Get.offAll(HomePage());
         } else if (json['code'] == 1) {
           throw jsonDecode(response.body)['message'];
         }
       } else {
         throw jsonDecode(response.body)["Message"] ?? "Unknown Error Occured";
       }
-    } catch (error) {
+    } catch (error, stackTrace) {
+      print('Error: $error');
+      print('Stack Trace: $stackTrace');
       Get.back();
       showDialog(
           context: Get.context!,
