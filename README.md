@@ -1,6 +1,12 @@
 # plateforme_touristique_onmt
 
 A new Flutter project.
+<div>
+<img src="./assets/screenshot/Screenshot 2024-03-11 at 22.20.44.png" style="width:300px" />
+
+<img src="./assets/screenshot/Screenshot 2024-03-11 at 22.20.56.png" style="width:300px" />
+</div>
+
 
 ## Getting Started
 
