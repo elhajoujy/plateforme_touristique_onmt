@@ -31,7 +31,8 @@ class MyApp extends StatelessWidget {
         'login': (context) => const LoginPage(title: "Login"),
         'HomePage': (context) => const HomePage(),
       },
-      home: LoginPage(title: "Login"),
+      // home: LoginPage(title: "Login"),
+      home: HomePage(),
     );
   }
 }

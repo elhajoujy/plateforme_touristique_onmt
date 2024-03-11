@@ -29,14 +29,11 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    DateTime now = DateTime.now();
-    String formattedDate = DateFormat.yMMMEd().format(now);
-    var formattedTime = DateFormat.jm().format(now);
     // timeStamp = "$formattedDate $formattedTime".obs;
 
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Flutter Firebase IoT"),
+          title: const Text("PlateForme Touristique"),
           actions: [
             IconButton(
               onPressed: () {
@@ -51,7 +48,7 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              const Text("Tableau de bord ",
+              const Text("Régions du Maroc  ",
                   style: TextStyle(
                     fontSize: 40,
                     fontWeight: FontWeight.bold,
@@ -59,44 +56,45 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(
                 height: 20,
               ),
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: SizedBox(
-                      width: Get.width,
-                      child: Obx(
-                        () => Text(
-                          "Date : $timeStamp",
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.normal,
-                          ),
-                        ),
-                      )),
-                ),
-              ),
-              Card(
-                  child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: SizedBox(
-                    width: Get.width,
-                    child: const Text("Plante Actuelle : Mint",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.normal,
-                        ))),
-              )),
               SizedBox(
                 height: Get.height / 6,
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    MainCard(temp: temp, title: "Température :(°C)"),
-                  ],
+                child: SingleChildScrollView(
+                  scrollDirection:
+                      Axis.horizontal, // Change scrollDirection to horizontal
+                  child: Row(
+                    // Use Row instead of Column
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      MainCard(
+                        name: "something",
+                        description: "description",
+                        imageUrl: "",
+                        area: "394847371",
+                        gdp: "100 Million MAD",
+                        population: "1 million",
+                      ),
+                      MainCard(
+                        name: "something",
+                        description: "description",
+                        imageUrl: "",
+                        area: "394847371",
+                        gdp: "100 Million MAD",
+                        population: "1 million",
+                      ),
+                      MainCard(
+                        name: "something",
+                        description: "description",
+                        imageUrl: "",
+                        area: "394847371",
+                        gdp: "100 Million MAD",
+                        population: "1 million",
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
@@ -107,62 +105,68 @@ class _HomePageState extends State<HomePage> {
 
 class MainCard extends StatelessWidget {
   const MainCard({
-    super.key,
-    required this.temp,
-    this.title = "Température : ",
-  });
+    Key? key,
+    this.name = "name",
+    this.description = "description",
+    this.imageUrl = "",
+    this.area = "394847371",
+    this.gdp = "100 Million MAD",
+    this.population = "1 million",
+  }) : super(key: key);
 
-  final RxString temp;
-  final String title;
+  final String name;
+  final String description;
+  final String imageUrl;
+  final String area;
+  final String gdp;
+  final String population;
 
   @override
   Widget build(BuildContext context) {
     return Card(
       child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Obx(
-            () => SizedBox(
-              width: Get.width / 3,
-              height: 100,
-              child: Center(
-                  child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    title.toString(),
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.normal,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: const BoxDecoration(
-                      // color: Colors.blue,
-                      // borderRadius: BorderRadius.all(Radius.circular(100)),
-                      border: Border(
-                        bottom: BorderSide(width: 2.0, color: Colors.blue),
-                        // top: BorderSide(width: 3.0, color: Colors.black),
-                        // left: BorderSide(width: 3.0, color: Colors.black),
-                        // right: BorderSide(width: 3.0, color: Colors.black),
-                      ),
-                    ),
-                    child: Text(
-                      "$temp",
-                      style: const TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.normal,
-                      ),
-                    ),
-                  ),
-                ],
-              )),
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              name,
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          )),
+            SizedBox(height: 8),
+            Text(
+              description,
+              style: TextStyle(
+                fontSize: 14,
+              ),
+            ),
+            SizedBox(height: 8),
+            Text(
+              'GDP: $gdp',
+              style: TextStyle(
+                fontSize: 14,
+              ),
+            ),
+            SizedBox(height: 8),
+            Text(
+              'Population: $population',
+              style: TextStyle(
+                fontSize: 14,
+              ),
+            ),
+            SizedBox(height: 8),
+            Text(
+              'Area: $area',
+              style: TextStyle(
+                fontSize: 14,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
