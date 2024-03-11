@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -19,7 +18,6 @@ class _HomePageState extends State<HomePage> {
   var timeStamp = "0".obs;
 
   getData() async {
-
     //TODO:
   }
 
@@ -67,7 +65,7 @@ class _HomePageState extends State<HomePage> {
                   child: SizedBox(
                       width: Get.width,
                       child: Obx(
-                            () => Text(
+                        () => Text(
                           "Date : $timeStamp",
                           style: const TextStyle(
                             fontSize: 16,
@@ -79,15 +77,15 @@ class _HomePageState extends State<HomePage> {
               ),
               Card(
                   child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: SizedBox(
-                        width: Get.width,
-                        child: const Text("Plante Actuelle : Mint",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.normal,
-                            ))),
-                  )),
+                padding: const EdgeInsets.all(16.0),
+                child: SizedBox(
+                    width: Get.width,
+                    child: const Text("Plante Actuelle : Mint",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.normal,
+                        ))),
+              )),
               SizedBox(
                 height: Get.height / 6,
               ),
@@ -123,46 +121,46 @@ class MainCard extends StatelessWidget {
       child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Obx(
-                () => SizedBox(
+            () => SizedBox(
               width: Get.width / 3,
               height: 100,
               child: Center(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        title.toString(),
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.normal,
-                        ),
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    title.toString(),
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: const BoxDecoration(
+                      // color: Colors.blue,
+                      // borderRadius: BorderRadius.all(Radius.circular(100)),
+                      border: Border(
+                        bottom: BorderSide(width: 2.0, color: Colors.blue),
+                        // top: BorderSide(width: 3.0, color: Colors.black),
+                        // left: BorderSide(width: 3.0, color: Colors.black),
+                        // right: BorderSide(width: 3.0, color: Colors.black),
                       ),
-                      const SizedBox(
-                        height: 10,
+                    ),
+                    child: Text(
+                      "$temp",
+                      style: const TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.normal,
                       ),
-                      Container(
-                        padding: const EdgeInsets.all(10),
-                        decoration: const BoxDecoration(
-                          // color: Colors.blue,
-                          // borderRadius: BorderRadius.all(Radius.circular(100)),
-                          border: Border(
-                            bottom: BorderSide(width: 2.0, color: Colors.blue),
-                            // top: BorderSide(width: 3.0, color: Colors.black),
-                            // left: BorderSide(width: 3.0, color: Colors.black),
-                            // right: BorderSide(width: 3.0, color: Colors.black),
-                          ),
-                        ),
-                        child: Text(
-                          "$temp",
-                          style: const TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.normal,
-                          ),
-                        ),
-                      ),
-                    ],
-                  )),
+                    ),
+                  ),
+                ],
+              )),
             ),
           )),
     );
