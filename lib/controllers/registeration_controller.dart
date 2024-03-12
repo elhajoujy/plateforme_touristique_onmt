@@ -16,12 +16,27 @@ class RegisterationController extends GetxController {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   Future<void> registerWithEmail() async {
+    if (passwordController.text.length < 8) {
+      showDialog(
+          context: Get.context!,
+          builder: (context) {
+            return const SimpleDialog(
+              title: Text('Error'),
+              contentPadding: EdgeInsets.all(20),
+              children: [
+                Text(
+                    "Minimum length requirement not met for the password , password should be more than 8 charachter ")
+              ],
+            );
+          });
+      return;
+    }
     try {
       var headers = {'Content-Type': 'application/json'};
-      var url = Uri.parse(ApiEndPoints.baseUrl + ApiEndPoints.registerEmail);
+      var url = Uri.http(ApiEndPoints.baseUrl, ApiEndPoints.registerEmail);
       Map body = {
-        'firstname': firsntmae.text.trim(),
-        'latname': lastname.text.trim(),
+        'firstname': firsntmae.text,
+        'latname': lastname.text,
         'email': emailController.text.trim(),
         'password': passwordController.text,
         "regionId": "1"
@@ -32,11 +47,10 @@ class RegisterationController extends GetxController {
 
       if (response.statusCode == 200) {
         final json = jsonDecode(response.body);
-        if (json) {
-          var token = json['data']['Token'];
+        if (true) {
+          var token = json['accessToken'];
           print(token);
           final SharedPreferences? prefs = await _prefs;
-
           await prefs?.setString('token', token);
           firsntmae.clear();
           lastname.clear();

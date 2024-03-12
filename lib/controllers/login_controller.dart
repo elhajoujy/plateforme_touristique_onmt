@@ -13,6 +13,20 @@ class LoginController extends GetxController {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   Future<void> loginWithEmail() async {
+    if (passwordController.text.length < 8) {
+      showDialog(
+          context: Get.context!,
+          builder: (context) {
+            return const SimpleDialog(
+              title: Text('Error'),
+              contentPadding: EdgeInsets.all(20),
+              children: [
+                Text(
+                    "Minimum length requirement not met for the password , password should be more than 8 charachter ")
+              ],
+            );
+          });
+    }
     var headers = {
       'Content-Type': 'application/json',
       "Access-Control-Allow-Origin": "*",

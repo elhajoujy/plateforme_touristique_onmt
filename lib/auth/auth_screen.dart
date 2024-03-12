@@ -74,21 +74,30 @@ class _AuthScreenState extends State<AuthScreen> {
   Widget registerWidget() {
     return Column(
       children: [
-        InputTextFieldWidget(registerationController.firsntmae, 'firstname'),
-        SizedBox(
-          height: 20,
-        ),
-        InputTextFieldWidget(registerationController.lastname, 'lastname'),
+        InputTextFieldWidget(
+            textEditingController: registerationController.firsntmae,
+            hintText: 'firstname'),
         SizedBox(
           height: 20,
         ),
         InputTextFieldWidget(
-            registerationController.emailController, 'email address'),
+            textEditingController: registerationController.lastname,
+            hintText: 'lastname'),
         SizedBox(
           height: 20,
         ),
         InputTextFieldWidget(
-            registerationController.passwordController, 'password'),
+            textEditingController: registerationController.emailController,
+            hintText: 'email address'),
+        SizedBox(
+          height: 20,
+        ),
+        InputTextFieldWidget(
+          textEditingController: registerationController.passwordController,
+          hintText: 'Password',
+          isObscureText: true,
+          minLength: 8,
+        ),
         SizedBox(
           height: 20,
         ),
@@ -106,11 +115,18 @@ class _AuthScreenState extends State<AuthScreen> {
         const SizedBox(
           height: 20,
         ),
-        InputTextFieldWidget(loginController.emailController, 'email address'),
+        InputTextFieldWidget(
+            textEditingController: loginController.emailController,
+            hintText: 'email address'),
         const SizedBox(
           height: 20,
         ),
-        InputTextFieldWidget(loginController.passwordController, 'password'),
+        InputTextFieldWidget(
+          textEditingController: loginController.passwordController,
+          hintText: 'password',
+          isObscureText: true,
+          minLength: 8,
+        ),
         const SizedBox(
           height: 20,
         ),
@@ -123,32 +139,67 @@ class _AuthScreenState extends State<AuthScreen> {
   }
 }
 
-class Controller extends GetxController {
-  final count = 0.obs;
-  void increment() => count.value++;
-}
-
 class InputTextFieldWidget extends StatelessWidget {
   final TextEditingController textEditingController;
   final String hintText;
-  InputTextFieldWidget(this.textEditingController, this.hintText);
+  final bool isObscureText;
+  final int? minLength;
+  final int? maxLength;
+
+  InputTextFieldWidget({
+    required this.textEditingController,
+    required this.hintText,
+    this.isObscureText = false,
+    this.minLength = 8,
+    this.maxLength,
+  });
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 46,
-      child: TextField(
-        controller: textEditingController,
-        decoration: InputDecoration(
-            alignLabelWithHint: true,
-            focusedBorder: const UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.black)),
-            fillColor: Colors.white54,
-            hintText: hintText,
-            hintStyle: const TextStyle(color: Colors.grey),
-            contentPadding: const EdgeInsets.only(bottom: 15),
-            focusColor: Colors.white60),
+      height: 80, // Increased height to accommodate error message
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          GetBuilder<InputTextFieldController>(
+            init: InputTextFieldController(),
+            builder: (controller) {
+              return TextField(
+                controller: textEditingController,
+                obscureText: isObscureText,
+                maxLength: maxLength,
+                onChanged: (value) => controller.validate(value, minLength),
+                decoration: InputDecoration(
+                  alignLabelWithHint: true,
+                  focusedBorder: const UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                  ),
+                  fillColor: Colors.white54,
+                  hintText: hintText,
+                  hintStyle: const TextStyle(color: Colors.grey),
+                  contentPadding: const EdgeInsets.only(bottom: 15),
+                  focusColor: Colors.white60,
+                  counterText: '', // Hide the default character counter
+                  errorText: controller.errorText.value,
+                ),
+              );
+            },
+          ),
+        ],
       ),
     );
+  }
+}
+
+class InputTextFieldController extends GetxController {
+  RxString errorText = RxString('');
+
+  void validate(String value, int? minLength) {
+    if (minLength != null && value.length < minLength) {
+      errorText.value = 'Minimum length requirement not met';
+    } else {
+      errorText.value = '';
+    }
   }
 }
 
