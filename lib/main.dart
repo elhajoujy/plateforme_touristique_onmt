@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plateforme_touristique_onmt/home/Home.dart';
-import 'auth/Login.dart';
+import 'auth/auth_screen.dart';
 
 void main() async {
   runApp(const MyApp());

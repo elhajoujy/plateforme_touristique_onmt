@@ -27,7 +27,8 @@ class _AuthScreenState extends State<AuthScreen> {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: SingleChildScrollView(
-            child: Column(
+              child: Obx(
+            () => Column(
               // mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -36,15 +37,14 @@ class _AuthScreenState extends State<AuthScreen> {
                   width: 200,
                   height: 200,
                 ),
-                SizedBox(
-                  height: Get.height * 0.1,
-                ),
+                const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     MaterialButton(
                       color: !isLogin.value ? Colors.white : Colors.amber,
                       onPressed: () {
+                        print("true");
                         isLogin.value = false;
                       },
                       child: Text('Register'),
@@ -52,6 +52,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     MaterialButton(
                       color: isLogin.value ? Colors.white : Colors.amber,
                       onPressed: () {
+                        print("true");
                         isLogin.value = true;
                       },
                       child: Text('Login'),
@@ -64,7 +65,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 isLogin.value ? loginWidget() : registerWidget()
               ],
             ),
-          ),
+          )),
         ),
       ),
     );
@@ -73,7 +74,11 @@ class _AuthScreenState extends State<AuthScreen> {
   Widget registerWidget() {
     return Column(
       children: [
-        InputTextFieldWidget(registerationController.nameController, 'name'),
+        InputTextFieldWidget(registerationController.firsntmae, 'firstname'),
+        SizedBox(
+          height: 20,
+        ),
+        InputTextFieldWidget(registerationController.lastname, 'lastname'),
         SizedBox(
           height: 20,
         ),

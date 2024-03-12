@@ -8,7 +8,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 class RegisterationController extends GetxController {
-  TextEditingController nameController = TextEditingController();
+  TextEditingController firsntmae = TextEditingController();
+  TextEditingController lastname = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
@@ -19,9 +20,11 @@ class RegisterationController extends GetxController {
       var headers = {'Content-Type': 'application/json'};
       var url = Uri.parse(ApiEndPoints.baseUrl + ApiEndPoints.registerEmail);
       Map body = {
-        'name': nameController.text,
+        'firstname': firsntmae.text.trim(),
+        'latname': lastname.text.trim(),
         'email': emailController.text.trim(),
-        'password': passwordController.text
+        'password': passwordController.text,
+        "regionId": "1"
       };
 
       http.Response response =
@@ -29,13 +32,14 @@ class RegisterationController extends GetxController {
 
       if (response.statusCode == 200) {
         final json = jsonDecode(response.body);
-        if (json['code'] == 0) {
+        if (json) {
           var token = json['data']['Token'];
           print(token);
           final SharedPreferences? prefs = await _prefs;
 
           await prefs?.setString('token', token);
-          nameController.clear();
+          firsntmae.clear();
+          lastname.clear();
           emailController.clear();
           passwordController.clear();
           Get.off(HomePage());
