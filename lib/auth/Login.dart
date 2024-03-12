@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plateforme_touristique_onmt/controllers/login_controller.dart';
+import 'package:plateforme_touristique_onmt/controllers/registeration_controller.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key, required this.title});
+class AuthScreen extends StatefulWidget {
+  const AuthScreen({super.key, required this.title});
   final String? title;
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<AuthScreen> createState() => _AuthScreenState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _AuthScreenState extends State<AuthScreen> {
   var myemail = '';
   var mypassword = '';
   login() async {}
   LoginController loginController = Get.put(LoginController());
+  RegisterationController registerationController =
+      Get.put(RegisterationController());
   var isLogin = false.obs;
 
   @override
@@ -36,12 +39,59 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(
                   height: Get.height * 0.1,
                 ),
-                loginWidget()
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    MaterialButton(
+                      color: !isLogin.value ? Colors.white : Colors.amber,
+                      onPressed: () {
+                        isLogin.value = false;
+                      },
+                      child: Text('Register'),
+                    ),
+                    MaterialButton(
+                      color: isLogin.value ? Colors.white : Colors.amber,
+                      onPressed: () {
+                        isLogin.value = true;
+                      },
+                      child: Text('Login'),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: Get.height * 0.1,
+                ),
+                isLogin.value ? loginWidget() : registerWidget()
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+
+  Widget registerWidget() {
+    return Column(
+      children: [
+        InputTextFieldWidget(registerationController.nameController, 'name'),
+        SizedBox(
+          height: 20,
+        ),
+        InputTextFieldWidget(
+            registerationController.emailController, 'email address'),
+        SizedBox(
+          height: 20,
+        ),
+        InputTextFieldWidget(
+            registerationController.passwordController, 'password'),
+        SizedBox(
+          height: 20,
+        ),
+        SubmitButton(
+          onPressed: () => registerationController.registerWithEmail(),
+          title: 'Register',
+        )
+      ],
     );
   }
 
