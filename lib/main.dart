@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:plateforme_touristique_onmt/home/Home.dart';
 import 'auth/Login.dart';
 
-
 void main() async {
   runApp(const MyApp());
 }
@@ -22,11 +21,11 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       routes: {
-        'login': (context) => const LoginPage(title: "Login"),
+        'login': (context) => const AuthScreen(title: "Login"),
         'HomePage': (context) => const HomePage(),
       },
-      // home: LoginPage(title: "Login"),
-      home: HomePage(),
+      home: AuthScreen(title: "Authentification Screen onmt"),
+      // home: HomePage(),
     );
   }
 }
