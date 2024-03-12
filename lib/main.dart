@@ -3,14 +3,8 @@ import 'package:get/get.dart';
 import 'package:plateforme_touristique_onmt/home/Home.dart';
 import 'auth/Login.dart';
 
-var isLogin;
+
 void main() async {
-  var user;
-  if (user != null) {
-    isLogin = true;
-  } else {
-    isLogin = false;
-  }
   runApp(const MyApp());
 }
 
